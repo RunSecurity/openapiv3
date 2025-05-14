@@ -4,6 +4,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default, PartialEq)]
 pub struct OpenApi {
+    #[serde(default = "openapi3_1")]
+    pub openapi: String,
     /// REQUIRED. Provides metadata about the API.
     /// The metadata MAY be used by tooling as required.
     pub info: Info,
@@ -81,6 +83,10 @@ impl OpenApi {
     }
 }
 
+fn openapi3_1() -> String {
+    "3.1.0".to_string()
+}
+
 #[cfg(feature = "conversions")]
 use crate::v3_0;
 
@@ -88,6 +94,7 @@ use crate::v3_0;
 impl From<v3_0::OpenAPI> for OpenApi {
     fn from(o: v3_0::OpenAPI) -> Self {
         OpenApi {
+            openapi: openapi3_1(),
             info: o.info.into(),
             json_schema_dialect: None,
             servers: o.servers.into_iter().map(Into::into).collect(),
