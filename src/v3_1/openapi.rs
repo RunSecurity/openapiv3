@@ -1,9 +1,12 @@
 use crate::v3_1::*;
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
+use derivative::Derivative;
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default, PartialEq)]
+#[derive(Derivative, Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derivative(Default)]
 pub struct OpenApi {
+    #[derivative(Default(value = "openapi3_1()"))]
     #[serde(default = "openapi3_1")]
     pub openapi: String,
     /// REQUIRED. Provides metadata about the API.
